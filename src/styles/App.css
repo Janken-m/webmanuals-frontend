@@ -1,0 +1,45 @@
+.continer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  place-self: center;
+  margin: 1rem;
+  padding: 3rem;
+  border: 1px solid gray;
+  border-radius: 1rem;
+}
+
+.input_original {
+  padding: 0.5rem;
+  outline: none;
+  border-radius: 1rem;
+}
+
+.right_side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 3rem;
+}
+
+.List-items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.List-items .url-hash {
+  text-decoration: solid;
+  cursor: pointer;
+  color: blue;
+  text-decoration-line: underline;
+  text-decoration-color: blue;
+}
