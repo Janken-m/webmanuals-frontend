@@ -1,6 +1,6 @@
 .continer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   align-items: center;
   justify-content: center;
 }
@@ -10,11 +10,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 60%;
   place-self: center;
   margin: 1rem;
   padding: 3rem;
-  border: 1px solid gray;
+  border: 1px solid rgb(245, 245, 245);
+  box-shadow: -3px -3px 9px rgb(245, 245, 245),
+    3px 3px 7px rgba(147, 149, 151, 0.671);
   border-radius: 1rem;
 }
 
@@ -27,17 +29,20 @@
 .right_side {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 3rem;
+  align-items: center;
+  width: 60%;
 }
 
 .List-items {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  place-self: center;
 }
 
 .List-items .url-hash {
   text-decoration: solid;
+  padding: 1rem;
   cursor: pointer;
   color: blue;
   text-decoration-line: underline;

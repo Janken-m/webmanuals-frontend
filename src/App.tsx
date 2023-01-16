@@ -9,20 +9,17 @@ import {
 } from "./store/Api";
 import { BsFillTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 interface Iurl {
   _id: string;
   originalUrl: string;
   shortenId?: string;
   expiration?: Date;
-  expair?: boolean;
+  expair?: number;
   createdAt: Date;
 }
 
 function App() {
-  const navigate = useNavigate();
-  const [seconds, setSeconds] = useState(100000);
   const [originalUrl, setOriginalUrl] = useState<string>("");
   const [expair, setExpair] = useState<string>("");
   const [error, setError] = useState();
@@ -61,19 +58,7 @@ function App() {
       });
   };
 
-  const handleCountdown = () => {
-    let interval = null;
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((seconds) => seconds - 1);
-      if (seconds <= 0) {
-        toast.info("time out");
-      }
-    }, 1000);
-    return () => clearTimeout(interval);
-  }, [urls, error, errors, seconds]);
+  useEffect(() => {}, [urls, error, errors]);
 
   return (
     <>
@@ -117,7 +102,9 @@ function App() {
                   {url.shortenId}{" "}
                 </p>
                 <p style={{ paddingRight: "5px", paddingLeft: "5px" }}>
-                  {seconds} seconds remaining
+                  {url.expair
+                    ? Math.floor(url.expair) / 60 / 1000 + `min`
+                    : url.createdAt.toLocaleString()}
                 </p>
                 <BsFillTrashFill
                   size={18}
