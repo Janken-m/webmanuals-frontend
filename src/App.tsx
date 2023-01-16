@@ -1,6 +1,8 @@
 import Navbar from "./components/Navbar";
 import "./styles/App.css";
 import spinner from "./assets/spinner.svg";
+import { BsCheckLg } from "react-icons/bs";
+
 import { FormEvent, ChangeEvent, useState, useEffect } from "react";
 import {
   useAddUrlMutation,
@@ -100,7 +102,7 @@ function App() {
                       <CountdownTimer duration={url.expair} id={url._id} />
                     ) : (
                       <p style={{ color: "#7EE787", fontWeight: "bold" }}>
-                        Valid URL
+                        Valid URL <BsCheckLg size={16} />
                       </p>
                     )}
                   </div>

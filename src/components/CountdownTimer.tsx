@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useUpdateExpairMutation } from "../store/Api";
+import { BsXLg } from "react-icons/bs";
 
 interface Props {
   duration: string;
@@ -58,7 +58,9 @@ const CountdownTimer: React.FC<Props> = ({ duration, id }) => {
   return (
     <div style={{ color: "black" }}>
       {time <= 0 ? (
-        <p style={{ color: "red", fontWeight: "bold" }}>Invalid URL</p>
+        <p style={{ color: "red", fontWeight: "bold" }}>
+          Invalid URL <BsXLg color="red" size={16} />
+        </p>
       ) : (
         getFormattedTime(time)
       )}
