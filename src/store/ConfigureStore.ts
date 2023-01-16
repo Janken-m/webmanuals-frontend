@@ -5,7 +5,6 @@ import { Api } from "./Api";
 export function initStore() {
   return configureStore({
     reducer,
-    //@ts-ignore
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(Api.middleware),
   });

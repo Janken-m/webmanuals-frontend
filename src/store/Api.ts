@@ -1,14 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface Iurl {
-  _id: string;
-  originalUrl: string;
-  shortenId?: string;
-  expiration?: Date;
-  expair?: boolean;
-  createdAt: Date;
-}
-
 export const Api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
   tagTypes: ["shorten"],
@@ -34,10 +25,13 @@ export const Api = createApi({
       }),
       invalidatesTags: ["shorten"],
     }),
-    GetSingel: builder.query({
-      query: (shortenId) => ({
-        url: `/shorten/${shortenId}`,
+    UpdateExpair: builder.mutation({
+      query: ({ id, ...expair }) => ({
+        url: `/shorten/${id}`,
+        method: "PATCH",
+        body: expair,
       }),
+      invalidatesTags: ["shorten"],
     }),
   }),
 });
@@ -46,5 +40,5 @@ export const {
   useGetUrlsQuery,
   useAddUrlMutation,
   useRemoveUrlMutation,
-  useGetSingelQuery,
+  useUpdateExpairMutation,
 } = Api;

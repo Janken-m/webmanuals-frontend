@@ -1,8 +1,8 @@
 :root {
-  --background-main: #208cbb;
+  --background-main: #fefefe;
   --background-color: #1f4e78;
   --button-text-color: #fefefe;
-  --primary: #ffdb34;
+  --secondry: #23a8d5;
 }
 
 * {
@@ -11,7 +11,7 @@
 }
 body {
   background-color: var(--background-main);
-  color: var(--button-text-color);
+  color: var(--secondry);
 }
 
 button {
@@ -21,6 +21,7 @@ button {
   background-color: var(--background-color);
   color: var(--button-text-color);
   border-radius: 0.3rem;
+  font-weight: bold;
 }
 button:hover {
   background-color: #2a5d8a;

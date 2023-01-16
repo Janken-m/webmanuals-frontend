@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import "./styles/App.css";
-import axios from "axios";
-import { FormEvent, useEffect, useState } from "react";
+import spinner from "./assets/spinner.svg";
+import { FormEvent, ChangeEvent, useState, useEffect } from "react";
 import {
   useAddUrlMutation,
   useGetUrlsQuery,
@@ -9,21 +9,16 @@ import {
 } from "./store/Api";
 import { BsFillTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-
-interface Iurl {
-  _id: string;
-  originalUrl: string;
-  shortenId?: string;
-  expiration?: Date;
-  expair?: number;
-  createdAt: Date;
-}
+import CountdownTimer from "./components/CountdownTimer";
+import { Iurl } from "./types/IurlDB";
+import { handleSingleRequest } from "./services/UrlserviceData";
+import Dropdown from "./components/Dropdown";
 
 function App() {
   const [originalUrl, setOriginalUrl] = useState<string>("");
   const [expair, setExpair] = useState<string>("");
   const { data: urls = [] } = useGetUrlsQuery("urls");
-  const [AddUrl, { error: errors }] = useAddUrlMutation();
+  const [AddUrl, { error: errors, isLoading }] = useAddUrlMutation();
   const [RemoveUrl] = useRemoveUrlMutation();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -36,6 +31,9 @@ function App() {
       AddUrl(body);
       setOriginalUrl("");
       setExpair("");
+      if (expair) {
+        toast.info("Please don't close the window before the count is done.");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -49,78 +47,74 @@ function App() {
     }
   };
 
-  const handleSingleRequest = async (shortenId: string) => {
-    await axios
-      .get(`http://localhost:5000/api/shorten/${shortenId}`)
-      .then((res) => window.open(res.data))
-      .catch((error) => {
-        toast.error(error.response.data.error);
-      });
+  const handleChangeSetExpair = (e: ChangeEvent<HTMLSelectElement>) => {
+    setExpair(e.target.value);
   };
 
-  useEffect(() => {}, [urls, errors]);
-
+  useEffect(() => {}, [expair]);
   return (
     <>
       <Navbar />
       <div className="continer">
         <form className="form" onSubmit={handleSubmit}>
-          <h2 style={{ padding: "0.5rem" }}> Shorten urls Service </h2>
+          <h2 style={{ padding: "0.5rem", color: "var(--secondry)" }}>
+            {" "}
+            Shorten urls Service{" "}
+          </h2>
           <input
             className="input_original"
             placeholder="Add url..."
             value={originalUrl}
             onChange={(e) => setOriginalUrl(e.target.value)}
           />
-          <div className="dropdown-continer">
-            <select
-              className="dropdown"
-              value={expair}
-              onChange={(e) => setExpair(e.target.value)}
-            >
-              <option value={""} disabled={true}>
-                Chose expair time
-              </option>
-              <option value={""}> None</option>
-              <option value={60000}>1 minutes</option>
-              <option value={180000}>3 minutes</option>
-              <option value={300000}>5 minutes</option>
-            </select>
-          </div>
+          <Dropdown onChange={handleChangeSetExpair} expair={expair} />
           {errors && (
-            <p style={{ color: "red", padding: "0.5rem" }}>
-              {JSON.stringify(errors.data.error)}
-            </p>
+            //@ts-ignore
+            <p className="validation-error">{errors.data.error}</p>
           )}
-          <button type="submit"> Shorten </button>
+          <button type="submit"> Shorten URL</button>
         </form>
-        <div className="right_side">
-          <h1 style={{ color: "var(--primary)" }}> Shortened URLS </h1>
-          {urls?.map((url: Iurl) => (
-            <ul key={url._id}>
-              <li className="List-items">
-                <p
-                  className="url-hash"
-                  title={url.originalUrl}
-                  //@ts-ignore
-                  onClick={() => handleSingleRequest(url.shortenId)}
-                >
-                  {url.shortenId}{" "}
-                </p>
-                <p style={{ paddingRight: "5px", paddingLeft: "5px" }}>
-                  {url.expair
-                    ? Math.floor(url.expair) / 60 / 1000 + `min`
-                    : url.createdAt.toLocaleString()}
-                </p>
-                <BsFillTrashFill
-                  size={18}
-                  color="red"
-                  style={{ placeSelf: "center", cursor: "pointer" }}
-                  onClick={() => handleRemoveUrl(url._id)}
-                />
-              </li>
-            </ul>
-          ))}
+        <div>
+          <h1 className="right-top-text"> Shortened URLS </h1>
+          <div className="right_side">
+            {isLoading && (
+              <img
+                style={{ placeSelf: "center" }}
+                src={spinner}
+                width="100px"
+                height="100px"
+              />
+            )}
+            {urls?.map((url: Iurl) => (
+              <div key={url._id} className="list-group">
+                <div className="List-items">
+                  <p
+                    className="url-hash"
+                    title={url.originalUrl}
+                    onClick={() => handleSingleRequest(url.shortenId)}
+                  >
+                    {url.shortenId}
+                  </p>
+                  <div style={{ paddingRight: "5px", paddingLeft: "5px" }}>
+                    {url.expair ? (
+                      <CountdownTimer duration={url.expair} id={url._id} />
+                    ) : (
+                      <p style={{ color: "#7EE787", fontWeight: "bold" }}>
+                        Valid URL
+                      </p>
+                    )}
+                  </div>
+                  <BsFillTrashFill
+                    title="Remove"
+                    size={18}
+                    color="red"
+                    style={{ placeSelf: "center", cursor: "pointer" }}
+                    onClick={() => handleRemoveUrl(url._id)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
