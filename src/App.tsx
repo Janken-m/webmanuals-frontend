@@ -88,7 +88,6 @@ function App() {
             </select>
           </div>
           {errors && (
-            //@ts-ignore
             <p style={{ color: "red", padding: "0.5rem" }}>
               {JSON.stringify(errors.data.error)}
             </p>
@@ -96,7 +95,7 @@ function App() {
           <button type="submit"> Shorten </button>
         </form>
         <div className="right_side">
-          <h1> Shortened URLS </h1>
+          <h1 style={{ color: "var(--primary)" }}> Shortened URLS </h1>
           {urls?.map((url: Iurl) => (
             <ul key={url._id}>
               <li className="List-items">
