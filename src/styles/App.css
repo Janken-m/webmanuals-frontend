@@ -1,8 +1,8 @@
 .continer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .form {
@@ -10,14 +10,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 50%;
   place-self: center;
   margin: 1rem;
   padding: 3rem;
   border: 1px solid rgb(245, 245, 245);
-  box-shadow: -3px -3px 9px rgb(245, 245, 245),
-    3px 3px 7px rgba(147, 149, 151, 0.671);
+  box-shadow: -3px -3px 9px rgb(245, 245, 245), 3px 3px 7px #1f4e78;
   border-radius: 1rem;
+}
+
+.dropdown-continer {
+  padding: 0.5rem;
+}
+
+.dropdown {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  outline: none;
 }
 
 .input_original {

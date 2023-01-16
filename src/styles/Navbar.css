@@ -1,0 +1,20 @@
+.navbar-continer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  height: 100px;
+}
+
+.logo:hover {
+  cursor: pointer;
+  animation: logo 3s ease-out forwards;
+}
+@keyframes logo {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}

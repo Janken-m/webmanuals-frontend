@@ -1,3 +1,9 @@
+:root {
+  --background-color: #1f4e78;
+  --button-text-color: #fefefe;
+  --button-color: #1f4e78;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,10 +13,9 @@ button {
   cursor: pointer;
   padding: 0.5rem;
   border: none;
-  background-color: #1f4e78;
-  color: #fefefe;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   border-radius: 0.3rem;
-  margin: 1rem;
 }
 button:hover {
   background-color: #2a5d8a;

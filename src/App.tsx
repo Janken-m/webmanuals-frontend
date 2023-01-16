@@ -22,9 +22,8 @@ interface Iurl {
 function App() {
   const [originalUrl, setOriginalUrl] = useState<string>("");
   const [expair, setExpair] = useState<string>("");
-  const [error, setError] = useState();
   const { data: urls = [] } = useGetUrlsQuery("urls");
-  const [AddUrl, { error: errors, data }] = useAddUrlMutation();
+  const [AddUrl, { error: errors }] = useAddUrlMutation();
   const [RemoveUrl] = useRemoveUrlMutation();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -36,6 +35,7 @@ function App() {
     try {
       AddUrl(body);
       setOriginalUrl("");
+      setExpair("");
     } catch (error) {
       console.log(error);
     }
@@ -58,21 +58,26 @@ function App() {
       });
   };
 
-  useEffect(() => {}, [urls, error, errors]);
+  useEffect(() => {}, [urls, errors]);
 
   return (
     <>
       <Navbar />
       <div className="continer">
         <form className="form" onSubmit={handleSubmit}>
+          <h2 style={{ padding: "0.5rem" }}> Shorten urls Service </h2>
           <input
             className="input_original"
             placeholder="Add url..."
             value={originalUrl}
             onChange={(e) => setOriginalUrl(e.target.value)}
           />
-          <div>
-            <select value={expair} onChange={(e) => setExpair(e.target.value)}>
+          <div className="dropdown-continer">
+            <select
+              className="dropdown"
+              value={expair}
+              onChange={(e) => setExpair(e.target.value)}
+            >
               <option value={""} disabled={true}>
                 Chose expair time
               </option>
@@ -84,9 +89,11 @@ function App() {
           </div>
           {errors && (
             //@ts-ignore
-            <p style={{ color: "red" }}>{JSON.stringify(errors.data.error)}</p>
+            <p style={{ color: "red", padding: "0.5rem" }}>
+              {JSON.stringify(errors.data.error)}
+            </p>
           )}
-          <button type="submit"> Submit </button>
+          <button type="submit"> Shorten </button>
         </form>
         <div className="right_side">
           <h1> Shortened URLS </h1>
@@ -112,11 +119,6 @@ function App() {
                   style={{ placeSelf: "center", cursor: "pointer" }}
                   onClick={() => handleRemoveUrl(url._id)}
                 />
-                {error && (
-                  <p style={{ color: "red" }}>
-                    <span>{error}</span>
-                  </p>
-                )}
               </li>
             </ul>
           ))}

@@ -1,16 +1,9 @@
 import logo from "../assets/logo.png";
+import "../styles/Navbar.css";
 const Navbar = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#1F4E78",
-        height: "100px",
-      }}
-    >
-      <img src={logo} width="300px" />
+    <div className="navbar-continer">
+      <img src={logo} width="250px" className="logo" />
     </div>
   );
 };
