@@ -106,6 +106,7 @@ function App() {
                       </p>
                     )}
                   </div>
+                  <div>{new URL(url.originalUrl).hostname}</div>
                   <BsFillTrashFill
                     title="Remove"
                     size={18}
